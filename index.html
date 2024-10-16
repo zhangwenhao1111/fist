@@ -5,10 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Gallery and Video</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Lora:wght@600&display=swap" rel="stylesheet">
+    
     <style>
+        /* 全局字体和排版 */
         body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(to bottom, #74ebd5, #acb6e5);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, #74ebd5 0%, #acb6e5 100%);
             color: #333;
             margin: 0;
             padding: 0;
@@ -17,6 +21,70 @@
             align-items: center;
         }
 
+        h1, h2, h3 {
+            font-family: 'Lora', serif;
+            color: #222;
+            margin-bottom: 20px;
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        /* 按钮和标签设计 */
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+            background-color: #333;
+            color: white;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .tab:hover {
+            background-color: #555;
+            transform: scale(1.05);
+        }
+
+        .tab.active {
+            background-color: #4CAF50;
+            animation: breathing 1.5s infinite;
+        }
+
+        @keyframes breathing {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .content-section {
+            display: none;
+            padding: 20px;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* 图片轮播和图片效果 */
         .carousel {
             margin: 40px 0;
             position: relative;
@@ -49,11 +117,18 @@
         }
 
         .carousel img.center {
-            transform: scale(1);
+            transform: scale(1.1);
             opacity: 1;
             filter: blur(0);
         }
 
+        /* 图片悬停效果 */
+        .carousel img:hover {
+            transform: scale(1.15);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 按钮设计 */
         .carousel-button {
             position: absolute;
             top: 50%;
@@ -63,11 +138,12 @@
             color: white;
             padding: 10px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.3s;
         }
 
         .carousel-button:hover {
             background-color: rgba(0, 0, 0, 0.9);
+            transform: scale(1.1);
         }
 
         .prev {
@@ -78,6 +154,7 @@
             right: 10px;
         }
 
+        /* 媒体容器 */
         .media-container {
             margin: 40px auto;
             max-width: 100%;
@@ -106,44 +183,7 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
 
-        .tab-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        .tab {
-            padding: 10px 20px;
-            margin: 0 10px;
-            cursor: pointer;
-            background-color: #333;
-            color: white;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: background-color 0.3s, transform 0.3s;
-        }
-
-        .tab:hover {
-            background-color: #555;
-            transform: scale(1.05);
-        }
-
-        .tab.active {
-            background-color: #4CAF50;
-        }
-
-        .content-section {
-            display: none;
-            padding: 20px;
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
+        /* 响应式优化 */
         @media (max-width: 768px) {
             .carousel {
                 width: 90%;
@@ -157,17 +197,23 @@
             video, iframe {
                 width: 100%;
             }
+
+            .tab {
+                font-size: 14px;
+                padding: 8px 15px;
+            }
         }
     </style>
 </head>
 <body>
 
+<!-- 标签栏 -->
 <div class="tab-container">
     <div class="tab" onclick="showSection('gallery')">Gallery</div>
     <div class="tab" onclick="showSection('video')">Video</div>
 </div>
 
-<!-- Gallery Section with Image Carousel -->
+<!-- 图片画廊部分 -->
 <section id="gallery" class="content-section">
     <div class="carousel">
         <button class="carousel-button prev" onclick="prevSlide()">❞</button>
@@ -180,7 +226,7 @@
     </div>
 </section>
 
-<!-- Video Section -->
+<!-- 视频部分 -->
 <section id="video" class="content-section">
     <div class="media-container">
         <video controls>
@@ -194,7 +240,7 @@
 
 <script>
     const carouselContainer = document.getElementById('carousel-container');
-    
+
     function updateActiveImage() {
         const images = carouselContainer.querySelectorAll('img');
         images.forEach((img, index) => {
@@ -205,19 +251,15 @@
     }
 
     function nextSlide() {
-        // 获取第一张图片
         const firstImage = carouselContainer.querySelector('img:first-child');
-        // 将第一张图片移到最后
         carouselContainer.appendChild(firstImage);
-        updateActiveImage(); // 更新中心图片
+        updateActiveImage();
     }
 
     function prevSlide() {
-        // 获取最后一张图片
         const lastImage = carouselContainer.querySelector('img:last-child');
-        // 将最后一张图片移动到最前
         carouselContainer.insertBefore(lastImage, carouselContainer.firstChild);
-        updateActiveImage(); // 更新中心图片
+        updateActiveImage();
     }
 
     function showSection(sectionId) {
@@ -236,10 +278,8 @@
         document.querySelector(`.tab[onclick="showSection('${sectionId}')"]`).classList.add('active');
     }
 
-    // 初始化，将第二张图片设为中心图像
+    // 初始化
     updateActiveImage();
-
-    // Initialize the gallery as the default active section
     showSection('gallery');
 </script>
 
