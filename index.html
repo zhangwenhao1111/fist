@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f9f9f9;
+            background: linear-gradient(to bottom, #74ebd5, #acb6e5);
             color: #333;
             margin: 0;
             padding: 0;
@@ -24,6 +24,7 @@
             max-width: 80%;
             width: 700px;
             border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .carousel img {
@@ -42,7 +43,7 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.7);
             border: none;
             color: white;
             padding: 10px;
@@ -57,20 +58,20 @@
             right: 10px;
         }
 
-        video {
-            display: block;
+        .media-container {
             margin: 40px auto;
             max-width: 80%;
             width: 700px;
-            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        iframe {
-            display: block;
-            margin: 20px auto;
-            max-width: 80%;
-            width: 700px;
+        video, iframe {
+            width: 100%;
             border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
         }
 
         .tab-container {
@@ -87,6 +88,11 @@
             color: white;
             border-radius: 5px;
             font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .tab:hover {
+            background-color: #555;
         }
 
         .tab.active {
@@ -128,12 +134,14 @@
 
 <!-- Video Section -->
 <section id="video" class="content-section">
-    <video controls>
-        <source src="your-video-file.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+    <div class="media-container">
+        <video controls>
+            <source src="your-video-file.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
 
-    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
 </section>
 
 <script>
