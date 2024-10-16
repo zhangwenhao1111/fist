@@ -196,6 +196,7 @@
 
 <script>
     let currentSlide = 1;
+    const intervalTime = 3000;  // 每3秒切换一次
 
     function updateCarousel() {
         const carouselImages = document.querySelectorAll('.carousel img');
@@ -240,6 +241,11 @@
         document.getElementById(sectionId).classList.add('active');
         document.querySelector(`.tab[onclick="showSection('${sectionId}')"]`).classList.add('active');
     }
+
+    // 自动轮播
+    setInterval(() => {
+        nextSlide();
+    }, intervalTime);
 
     // Initialize the gallery as the default active section
     showSection('gallery');
