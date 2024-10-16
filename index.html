@@ -69,29 +69,45 @@
             line-height: 1.6;
         }
 
-        /* 图片样式 */
-        .image-section img {
-            max-width: 100%;
+        /* 图片滑动样式 */
+        .carousel {
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            max-width: 700px;
+        }
+
+        .carousel img {
+            width: 100%;
             height: auto;
             display: block;
-            margin: 20px auto;
             border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.5s ease;
         }
 
-        /* 视频样式 */
-        .video-section video {
-            width: 100%;
-            border-radius: 10px;
-            margin: 20px 0;
+        .carousel-container {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
         }
 
-        /* YouTube视频嵌入 */
-        .video-section iframe {
-            width: 100%;
-            height: 500px;
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
             border: none;
-            border-radius: 10px;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
         }
 
         /* 页脚样式 */
@@ -124,10 +140,6 @@
                 margin: 0 10px;
                 padding: 8px 10px;
             }
-
-            .video-section iframe {
-                height: 300px;
-            }
         }
     </style>
 </head>
@@ -159,11 +171,20 @@
         <p>Write a brief paragraph about who you are, your hobbies, interests, or your studies.</p>
     </section>
 
-    <!-- Gallery Section with Image -->
+    <!-- Gallery Section with Image Carousel -->
     <section id="gallery" class="image-section">
         <h2>Gallery</h2>
         <p>Here are some of my favorite pictures.</p>
-        <img src="https://github.com/zhangwenhao1111/fist/blob/main/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202024-10-10%20080710.png" alt="A placeholder image">
+
+        <div class="carousel">
+            <div class="carousel-container">
+                <img src="https://raw.githubusercontent.com/zhangwenhao1111/fist/main/your-first-image.png" alt="Image 1">
+                <img src="https://raw.githubusercontent.com/zhangwenhao1111/fist/main/your-second-image.png" alt="Image 2">
+                <img src="https://raw.githubusercontent.com/zhangwenhao1111/fist/main/your-third-image.png" alt="Image 3">
+            </div>
+            <button class="carousel-button prev" onclick="prevSlide()">❮</button>
+            <button class="carousel-button next" onclick="nextSlide()">❯</button>
+        </div>
     </section>
 
     <!-- Video Section -->
@@ -191,6 +212,26 @@
 <footer>
     <p>© 2024 My Personal Website</p>
 </footer>
+
+<script>
+    let currentSlide = 0;
+
+    function showSlide(index) {
+        const carouselContainer = document.querySelector('.carousel-container');
+        const totalSlides = document.querySelectorAll('.carousel img').length;
+        currentSlide = (index + totalSlides) % totalSlides;
+        const offset = -currentSlide * 100;
+        carouselContainer.style.transform = 'translateX(' + offset + '%)';
+    }
+
+    function nextSlide() {
+        showSlide(currentSlide + 1);
+    }
+
+    function prevSlide() {
+        showSlide(currentSlide - 1);
+    }
+</script>
 
 </body>
 </html>
