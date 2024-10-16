@@ -66,12 +66,46 @@
             max-width: 700px;
             border-radius: 10px;
         }
+
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+            background-color: #333;
+            color: white;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .tab.active {
+            background-color: #4CAF50;
+        }
+
+        .content-section {
+            display: none;
+            padding: 20px;
+        }
+
+        .content-section.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
 
+<div class="tab-container">
+    <div class="tab active" onclick="showSection('gallery')">Gallery</div>
+    <div class="tab" onclick="showSection('video')">Video</div>
+</div>
+
 <!-- Gallery Section with Image Carousel -->
-<section id="gallery" class="image-section">
+<section id="gallery" class="content-section active">
     <div class="carousel">
         <div class="carousel-container">
             <img src="https://github.com/zhangwenhao1111/fist/blob/main/1.jpg?raw=true" alt="Image 1">
@@ -84,7 +118,7 @@
 </section>
 
 <!-- Video Section -->
-<section id="video">
+<section id="video" class="content-section">
     <video controls>
         <source src="your-video-file.mp4" type="video/mp4">
         Your browser does not support the video tag.
@@ -110,6 +144,22 @@
 
     function prevSlide() {
         showSlide(currentSlide - 1);
+    }
+
+    function showSection(sectionId) {
+        const sections = document.querySelectorAll('.content-section');
+        const tabs = document.querySelectorAll('.tab');
+
+        sections.forEach(section => {
+            section.classList.remove('active');
+        });
+
+        tabs.forEach(tab => {
+            tab.classList.remove('active');
+        });
+
+        document.getElementById(sectionId).classList.add('active');
+        document.querySelector(`.tab[onclick="showSection('${sectionId}')"]`).classList.add('active');
     }
 </script>
 
