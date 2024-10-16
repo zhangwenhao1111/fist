@@ -43,18 +43,15 @@
             border-radius: 10px;
             margin: 0 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .carousel img {
-            filter: blur(4px);
-            transform: scale(0.7);
             opacity: 0.5;
+            transform: scale(0.7);
+            filter: blur(4px);
         }
 
-        .carousel img.active {
-            filter: blur(0);
+        .carousel img.center {
             transform: scale(1);
             opacity: 1;
+            filter: blur(0);
         }
 
         .carousel-button {
@@ -175,7 +172,7 @@
     <div class="carousel">
         <button class="carousel-button prev" onclick="prevSlide()">❞</button>
         <div class="carousel-container" id="carousel-container">
-            <img src="https://github.com/zhangwenhao1111/fist/blob/main/1.jpg?raw=true" alt="Image 1">
+            <img src="https://github.com/zhangwenhao1111/fist/blob/main/1.jpg?raw=true" alt="Image 1" class="center">
             <img src="https://github.com/zhangwenhao1111/fist/blob/main/2.jpg?raw=true" alt="Image 2">
             <img src="https://github.com/zhangwenhao1111/fist/blob/main/3.jpg?raw=true" alt="Image 3">
         </div>
@@ -198,11 +195,21 @@
 <script>
     const carouselContainer = document.getElementById('carousel-container');
     
+    function updateActiveImage() {
+        const images = carouselContainer.querySelectorAll('img');
+        images.forEach((img, index) => {
+            img.classList.remove('center');
+        });
+        // 让第二张图片为中心图像
+        images[1].classList.add('center');
+    }
+
     function nextSlide() {
         // 获取第一张图片
         const firstImage = carouselContainer.querySelector('img:first-child');
         // 将第一张图片移到最后
         carouselContainer.appendChild(firstImage);
+        updateActiveImage(); // 更新中心图片
     }
 
     function prevSlide() {
@@ -210,6 +217,7 @@
         const lastImage = carouselContainer.querySelector('img:last-child');
         // 将最后一张图片移动到最前
         carouselContainer.insertBefore(lastImage, carouselContainer.firstChild);
+        updateActiveImage(); // 更新中心图片
     }
 
     function showSection(sectionId) {
@@ -227,6 +235,9 @@
         document.getElementById(sectionId).classList.add('active');
         document.querySelector(`.tab[onclick="showSection('${sectionId}')"]`).classList.add('active');
     }
+
+    // 初始化，将第二张图片设为中心图像
+    updateActiveImage();
 
     // Initialize the gallery as the default active section
     showSection('gallery');
