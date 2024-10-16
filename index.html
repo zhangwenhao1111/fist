@@ -26,6 +26,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
         }
 
         .carousel-container {
@@ -173,9 +174,9 @@
 <section id="gallery" class="content-section">
     <div class="carousel">
         <button class="carousel-button prev" onclick="prevSlide()">❞</button>
-        <div class="carousel-container">
+        <div class="carousel-container" id="carousel-container">
             <img src="https://github.com/zhangwenhao1111/fist/blob/main/1.jpg?raw=true" alt="Image 1">
-            <img src="https://github.com/zhangwenhao1111/fist/blob/main/2.jpg?raw=true" alt="Image 2" class="active">
+            <img src="https://github.com/zhangwenhao1111/fist/blob/main/2.jpg?raw=true" alt="Image 2">
             <img src="https://github.com/zhangwenhao1111/fist/blob/main/3.jpg?raw=true" alt="Image 3">
         </div>
         <button class="carousel-button next" onclick="nextSlide()">❟</button>
@@ -195,35 +196,20 @@
 </section>
 
 <script>
-    let currentSlide = 1;
-    const intervalTime = 3000;  // 每3秒切换一次
-
-    function updateCarousel() {
-        const carouselImages = document.querySelectorAll('.carousel img');
-        const totalSlides = carouselImages.length;
-
-        carouselImages.forEach((img, index) => {
-            if (index === currentSlide) {
-                img.classList.add('active');
-            } else {
-                img.classList.remove('active');
-            }
-        });
-
-        const offset = -250 * (currentSlide - 1);
-        document.querySelector('.carousel-container').style.transform = `translateX(${offset}px)`;
-    }
-
+    const carouselContainer = document.getElementById('carousel-container');
+    
     function nextSlide() {
-        const totalSlides = document.querySelectorAll('.carousel img').length;
-        currentSlide = (currentSlide + 1) % totalSlides;
-        updateCarousel();
+        // 获取第一张图片
+        const firstImage = carouselContainer.querySelector('img:first-child');
+        // 将第一张图片移到最后
+        carouselContainer.appendChild(firstImage);
     }
 
     function prevSlide() {
-        const totalSlides = document.querySelectorAll('.carousel img').length;
-        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-        updateCarousel();
+        // 获取最后一张图片
+        const lastImage = carouselContainer.querySelector('img:last-child');
+        // 将最后一张图片移动到最前
+        carouselContainer.insertBefore(lastImage, carouselContainer.firstChild);
     }
 
     function showSection(sectionId) {
@@ -241,11 +227,6 @@
         document.getElementById(sectionId).classList.add('active');
         document.querySelector(`.tab[onclick="showSection('${sectionId}')"]`).classList.add('active');
     }
-
-    // 自动轮播
-    setInterval(() => {
-        nextSlide();
-    }, intervalTime);
 
     // Initialize the gallery as the default active section
     showSection('gallery');
