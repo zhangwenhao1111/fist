@@ -22,7 +22,8 @@
             position: relative;
             overflow: hidden;
             max-width: 100%;
-            width: 700px;
+            width: 600px;
+            height: 400px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             display: flex;
@@ -32,22 +33,27 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
-        .carousel img {
-            width: 80%;
-            height: auto;
-            display: block;
-            transition: transform 0.5s ease, opacity 0.5s ease;
-            margin: auto;
-        }
-
         .carousel-container {
             display: flex;
             transition: transform 0.5s ease-in-out;
         }
 
+        .carousel img {
+            width: 70%;
+            height: auto;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+
         .carousel img:not(:nth-child(calc(var(--current-slide, 0) + 1))) {
-            transform: scale(0.8);
-            opacity: 0.5;
+            transform: scale(0.7);
+            opacity: 0.3;
+            filter: blur(4px);
+        }
+
+        .carousel img:nth-child(calc(var(--current-slide, 0) + 1)) {
+            transform: scale(1);
+            opacity: 1;
+            filter: blur(0);
         }
 
         .carousel-button {
@@ -77,7 +83,7 @@
         .media-container {
             margin: 40px auto;
             max-width: 100%;
-            width: 700px;
+            width: 600px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -90,7 +96,7 @@
 
         video, iframe {
             width: 100%;
-            max-width: 640px;
+            max-width: 560px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             margin-bottom: 20px;
@@ -140,29 +146,10 @@
             display: block;
         }
 
-        .carousel-thumbnail {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        .carousel-thumbnail img {
-            width: 100px;
-            height: auto;
-            margin: 0 5px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .carousel-thumbnail img:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
         @media (max-width: 768px) {
             .carousel, .media-container {
-                width: 95%;
+                width: 90%;
+                height: auto;
             }
 
             .carousel img {
@@ -192,11 +179,6 @@
         </div>
         <button class="carousel-button prev" onclick="prevSlide()">❞</button>
         <button class="carousel-button next" onclick="nextSlide()">❟</button>
-    </div>
-    <div class="carousel-thumbnail">
-        <img src="https://github.com/zhangwenhao1111/fist/blob/main/1.jpg?raw=true" alt="Thumbnail 1" onclick="showSlide(0)">
-        <img src="https://github.com/zhangwenhao1111/fist/blob/main/2.jpg?raw=true" alt="Thumbnail 2" onclick="showSlide(1)">
-        <img src="https://github.com/zhangwenhao1111/fist/blob/main/3.jpg?raw=true" alt="Thumbnail 3" onclick="showSlide(2)">
     </div>
 </section>
 
