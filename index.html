@@ -32,9 +32,46 @@
             margin-bottom: 15px;
         }
 
+        /* 验证界面样式 */
+        .verification-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        .verification-container input {
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            border: 2px solid #333;
+            border-radius: 5px;
+        }
+
+        .verification-container button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .verification-container button:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+            display: none;
+        }
+
         /* 按钮和标签设计 */
         .tab-container {
-            display: flex;
+            display: none; /* Initially hidden until verification is successful */
             justify-content: center;
             margin-top: 20px;
         }
@@ -207,8 +244,17 @@
 </head>
 <body>
 
-<!-- 标签栏 -->
-<div class="tab-container">
+<!-- 验证界面 -->
+<div class="verification-container" id="verification-container">
+    <h1>进入网站之前</h1>
+    <p>回答问题：张思媛是谁的女人？</p>
+    <input type="text" id="answer" placeholder="请输入答案">
+    <button onclick="verifyAnswer()">提交</button>
+    <p class="error-message" id="error-message">答案错误，请重试。</p>
+</div>
+
+<!-- 标签栏，初始隐藏 -->
+<div class="tab-container" id="tab-container">
     <div class="tab" onclick="showSection('gallery')">Gallery</div>
     <div class="tab" onclick="showSection('video')">Video</div>
 </div>
@@ -239,6 +285,22 @@
 </section>
 
 <script>
+    // 验证答案
+    function verifyAnswer() {
+        const answer = document.getElementById('answer').value.trim();
+        const errorMessage = document.getElementById('error-message');
+
+        if (answer === "张文豪") {
+            // 隐藏验证界面，显示内容界面
+            document.getElementById('verification-container').style.display = 'none';
+            document.getElementById('tab-container').style.display = 'flex';
+            showSection('gallery'); // 默认显示画廊
+        } else {
+            // 显示错误消息
+            errorMessage.style.display = 'block';
+        }
+    }
+
     const carouselContainer = document.getElementById('carousel-container');
 
     function updateActiveImage() {
@@ -278,9 +340,8 @@
         document.querySelector(`.tab[onclick="showSection('${sectionId}')"]`).classList.add('active');
     }
 
-    // 初始化
-    updateActiveImage();
-    showSection('gallery');
+    // 初始显示验证界面，隐藏其他内容
+    document.getElementById('tab-container').style.display = 'none';
 </script>
 
 </body>
