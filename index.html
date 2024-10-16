@@ -20,17 +20,12 @@
         .carousel {
             margin: 40px 0;
             position: relative;
-            overflow: hidden;
             max-width: 100%;
-            width: 600px;
+            width: 800px;
             height: 400px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             display: flex;
             justify-content: center;
             align-items: center;
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.3);
         }
 
         .carousel-container {
@@ -39,21 +34,24 @@
         }
 
         .carousel img {
-            width: 70%;
-            height: auto;
+            width: 300px;
+            height: 200px;
             transition: transform 0.5s ease, opacity 0.5s ease;
+            border-radius: 10px;
+            margin: 0 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        .carousel img:not(:nth-child(calc(var(--current-slide, 0) + 1))) {
-            transform: scale(0.7);
-            opacity: 0.3;
+        .carousel img:nth-child(n) {
             filter: blur(4px);
+            transform: scale(0.8);
+            opacity: 0.5;
         }
 
         .carousel img:nth-child(calc(var(--current-slide, 0) + 1)) {
+            filter: blur(0);
             transform: scale(1);
             opacity: 1;
-            filter: blur(0);
         }
 
         .carousel-button {
@@ -147,7 +145,7 @@
         }
 
         @media (max-width: 768px) {
-            .carousel, .media-container {
+            .carousel {
                 width: 90%;
                 height: auto;
             }
@@ -172,12 +170,12 @@
 <!-- Gallery Section with Image Carousel -->
 <section id="gallery" class="content-section active">
     <div class="carousel">
+        <button class="carousel-button prev" onclick="prevSlide()">❞</button>
         <div class="carousel-container">
             <img src="https://github.com/zhangwenhao1111/fist/blob/main/1.jpg?raw=true" alt="Image 1">
             <img src="https://github.com/zhangwenhao1111/fist/blob/main/2.jpg?raw=true" alt="Image 2">
             <img src="https://github.com/zhangwenhao1111/fist/blob/main/3.jpg?raw=true" alt="Image 3">
         </div>
-        <button class="carousel-button prev" onclick="prevSlide()">❞</button>
         <button class="carousel-button next" onclick="nextSlide()">❟</button>
     </div>
 </section>
@@ -201,17 +199,32 @@
         const carouselContainer = document.querySelector('.carousel-container');
         const totalSlides = document.querySelectorAll('.carousel img').length;
         currentSlide = (index + totalSlides) % totalSlides;
-        const offset = -currentSlide * 100;
-        carouselContainer.style.transform = 'translateX(' + offset + '%)';
         document.documentElement.style.setProperty('--current-slide', currentSlide);
     }
 
     function nextSlide() {
-        showSlide(currentSlide + 1);
+        currentSlide = (currentSlide + 1) % document.querySelectorAll('.carousel img').length;
+        updateCarousel();
     }
 
     function prevSlide() {
-        showSlide(currentSlide - 1);
+        currentSlide = (currentSlide - 1 + document.querySelectorAll('.carousel img').length) % document.querySelectorAll('.carousel img').length;
+        updateCarousel();
+    }
+
+    function updateCarousel() {
+        const carouselImages = document.querySelectorAll('.carousel img');
+        carouselImages.forEach((img, index) => {
+            if (index === currentSlide) {
+                img.style.transform = 'scale(1)';
+                img.style.opacity = '1';
+                img.style.filter = 'blur(0)';
+            } else {
+                img.style.transform = 'scale(0.8)';
+                img.style.opacity = '0.5';
+                img.style.filter = 'blur(4px)';
+            }
+        });
     }
 
     function showSection(sectionId) {
@@ -229,6 +242,9 @@
         document.getElementById(sectionId).classList.add('active');
         document.querySelector(`.tab[onclick="showSection('${sectionId}')"]`).classList.add('active');
     }
+
+    // Initialize the carousel with the first slide in focus
+    updateCarousel();
 </script>
 
 </body>
